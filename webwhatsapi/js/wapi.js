@@ -66,7 +66,7 @@ if (!window.Store) {
                     }
                 }
             }
-	 if (window.Store.Presence) {
+	 	if (window.Store.Presence) {
 			for (const prop in window.Store.Presence) {
 			    if (prop === "Presence") {
 			        continue;
@@ -74,7 +74,7 @@ if (!window.Store) {
 			    window.Store[prop] = window.Store.Presence[prop] || window.Store[prop];
 			}
 		    }
-	 return window.Store;
+	 		return window.Store;
         }
 
         if (typeof webpackJsonp === 'function') {
