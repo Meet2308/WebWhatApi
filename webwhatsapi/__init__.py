@@ -881,7 +881,7 @@ class WhatsAPIDriver(object):
         :return:
         """
         number_status = self.wapi_functions.checkNumberStatus(number_id)
-        return NumberStatus(number_status, self)
+        return number_status
 
     def subscribe_new_messages(self, observer):
         self.wapi_functions.new_messages_observable.subscribe(observer)
