@@ -11,11 +11,12 @@ if (!window.Store) {
         function getStore(modules) {
             let foundCount = 0;
             let neededObjects = [
-                { id: "Store", conditions: (module) => (module.Chat && module.Msg) ? module : null },
+                { id: "Store", conditions: (module) => (module.default && module.default.Chat && module.default.Msg) ? module.default : null },
                 { id: "MediaCollection", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.processAttachments) ? module.default : null },
                 { id: "MediaProcess", conditions: (module) => (module.BLOB) ? module : null },
                 { id: "Wap", conditions: (module) => (module.createGroup) ? module : null },
                 { id: "ServiceWorker", conditions: (module) => (module.default && module.default.killServiceWorker) ? module : null },
+                { id: 'Presence', conditions: (value) => (value.default && value.default.Presence) ? value.default : null },
                 { id: "State", conditions: (module) => (module.STATE && module.STREAM) ? module : null },
                 { id: "WapDelete", conditions: (module) => (module.sendConversationDelete && module.sendConversationDelete.length == 2) ? module : null },
                 { id: "Conn", conditions: (module) => (module.default && module.default.ref && module.default.refTTL) ? module.default : null },
@@ -61,10 +62,19 @@ if (!window.Store) {
                         window.Store.sendMessage = function (e) {
                             return window.Store.SendTextMsgToChat(this, ...arguments);
                         };
-                        return window.Store;
+                       
                     }
                 }
             }
+	 if (window.Store.Presence) {
+			for (const prop in window.Store.Presence) {
+			    if (prop === "Presence") {
+			        continue;
+			    }
+			    window.Store[prop] = window.Store.Presence[prop] || window.Store[prop];
+			}
+		    }
+	 return window.Store;
         }
 
         if (typeof webpackJsonp === 'function') {
